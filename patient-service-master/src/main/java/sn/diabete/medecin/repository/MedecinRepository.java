@@ -14,4 +14,5 @@ public interface MedecinRepository extends JpaRepository<Medecin, Long> {
     // Tu peux ajouter des méthodes personnalisées ici si nécessaire
     boolean existsByTelephone(String telephone);
 
+    Optional<Medecin> findByNumeroProfessionnel(String numeroProfessionnel);
 }

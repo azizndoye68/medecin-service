@@ -48,4 +48,11 @@ public class MedecinController {
         medecinService.deleteMedecin(id);
         return ResponseEntity.ok("Médecin supprimé avec succès.");
     }
+
+    // 🔹 Endpoint pour récupérer un médecin via son numéro professionnel
+    @GetMapping("/numero/{numeroProfessionnel}")
+    public ResponseEntity<MedecinResponse> getByNumero(@PathVariable String numeroProfessionnel) {
+        MedecinResponse medecinDto = medecinService.getMedecinByNumeroProfessionnel(numeroProfessionnel);
+        return ResponseEntity.ok(medecinDto);
+    }
 }

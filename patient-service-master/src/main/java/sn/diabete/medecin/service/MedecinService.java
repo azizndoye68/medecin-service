@@ -45,10 +45,11 @@ public class MedecinService {
 
 
     private String generateNumeroProfessionnel() {
-        String date = LocalDate.now().toString().replace("-", "");
-        String suffix = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
-        return "MED-" + date + "-" + suffix;
+        String year = String.valueOf(LocalDate.now().getYear()).substring(2); // "25"
+        String suffix = UUID.randomUUID().toString().substring(0, 3).toUpperCase(); // 3 caractères uniques
+        return "MED" + year + suffix; // Ex: MED25A1F
     }
+
 
     // 🔹 Récupérer tous les médecins
     public List<MedecinResponse> getAllMedecins() {
@@ -100,5 +101,13 @@ public class MedecinService {
         Medecin medecin = medecinRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Médecin non trouvé avec l'ID : " + id));
         medecinRepository.delete(medecin);
+    }
+
+    // 🔹 Récupérer un médecin par son numéro professionnel
+    public MedecinResponse getMedecinByNumeroProfessionnel(String numeroProfessionnel) {
+        Medecin medecin = medecinRepository.findByNumeroProfessionnel(numeroProfessionnel)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Médecin introuvable avec le numéro professionnel : " + numeroProfessionnel));
+        return MedecinMapper.INSTANCE.toDto(medecin);
     }
 }
